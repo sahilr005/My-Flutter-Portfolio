@@ -1,42 +1,32 @@
-import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_web_plugins/flutter_web_plugins.dart';
-import 'package:my_portfolio/provider/theme.dart';
-import 'package:my_portfolio/routes/routes.dart';
-
-void configureApp() {
-  setUrlStrategy(PathUrlStrategy());
-}
+import 'package:flutter_portfolio/res/constants.dart';
+import 'package:flutter_portfolio/view/splash/splash_view.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  configureApp();
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
+  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return Consumer(
-      builder: (context, ref, _) {
-        return ThemeProvider(
-          initTheme: ref.watch(themeProvider).isDarkMode
-              ? MyThemes.darkTheme
-              : MyThemes.lightTheme,
-          child: MaterialApp(
-            title: "Sahil Rakholiya",
-            debugShowCheckedModeBanner: false,
-            themeMode: ref.watch(themeProvider).themeMode,
-            theme: MyThemes.lightTheme,
-            darkTheme: MyThemes.darkTheme,
-            initialRoute: Routes.initial,
-            onGenerateRoute: RouterGenerator.generateRoute,
-          ),
-        );
-      },
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        scaffoldBackgroundColor: bgColor,
+        useMaterial3: true,
+        textTheme: GoogleFonts.openSansTextTheme(Theme.of(context).textTheme)
+            .apply(bodyColor: Colors.white,)
+            .copyWith(
+          bodyText1: const TextStyle(color: bodyTextColor),
+          bodyText2: const TextStyle(color: bodyTextColor),
+        ),
+      ),
+
+      home: SplashView()
     );
   }
 }
+
+
